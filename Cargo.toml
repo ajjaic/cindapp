@@ -1,0 +1,11 @@
+[package]
+name = "cindapp"
+version = "0.1.0"
+authors = ["aj <zencodes@ajjai.in>"]
+
+[dependencies]
+iron = "0.5.1"
+router = "0.5.1"
+rustc-serialize = "0.3.22"
+chrono = { version = "0.3.0", features = ["rustc-serialize"] }
+
