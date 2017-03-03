@@ -1,12 +1,14 @@
-extern crate iron;
+// extern crate iron;
+#[macro_use] extern crate serde_derive;
+extern crate core;
+extern crate names;
+
+mod datastore;
 
 fn main() {
-    println!("Hello, world!");
 }
 
-#[derive(Debug)]
-struct Client {
-    name: String,
-    phone: usize,
-    delivery_addr: String,
+#[cfg(test)]
+mod tests {
+
 }
