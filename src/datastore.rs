@@ -23,7 +23,7 @@ impl Default for DataStore {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug)]//{{{
 struct Client {
     id: usize,
     name: String,
@@ -49,18 +49,16 @@ struct RestaurantItem {
 struct DriverItem {
     id: usize,
     name: String,
-}
+}//}}}
 
 #[cfg(test)]
 mod tests {
-    extern crate names;
-    extern crate random;
 
-    use super::Client;
-    use self::names::Generator;
-    use self::random::default;
-    use self::random::Source;
-
+    use super::{Client, DataStore};
+    use names::Generator;
+    use random::{default, Source};
+    use serde_json::to_string;
+    use json_io::save;
 
     fn random_name() -> String {
         let mut g = Generator::default().next();
@@ -85,6 +83,14 @@ mod tests {
 
     #[test]
     fn test_write_client() {
-        println!("{:?}", random_client());
+        let ds = DataStore::default();
+        let rnd_client = to_string(&random_client());
+        assert!(rnd_client.is_ok());
+        save(ds.client.as_path(), &random_client());
+        // error is in the above line. random_client returns a super::Client struct.
+        // super::Client struct derives serde::ser::Serialize. But I still get the error
+        // `the trait `serde::ser::Serialize` is not implemented for `datastore::Client`
+        // But it is. Otherwise line 87 wouldn't work. Because `to_string` requires its
+        // argument to derive Serialize
     }
 }
